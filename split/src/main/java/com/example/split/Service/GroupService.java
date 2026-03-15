@@ -3,7 +3,7 @@ package com.example.split.Service;
 import com.example.split.DTOs.GroupRequest;
 import com.example.split.Entities.Group;
 import com.example.split.Entities.User;
-import com.splitwise.exception.ResourceNotFoundException;
+import com.example.split.exception.ResourceNotFoundException;
 import com.example.split.Repository.GroupRepository;
 import com.example.split.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
