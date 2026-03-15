@@ -1,4 +1,4 @@
-package com.example.split.entity;
+package com.example.split.Entities;
 
 import jakarta.persistence.*;
 import lombok.*;
