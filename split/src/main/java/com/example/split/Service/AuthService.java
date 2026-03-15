@@ -1,12 +1,12 @@
 package com.example.split.Service;
 
+import com.example.split.DTOs.RegisterRequest;
 import com.example.split.config.JwtUtil;
 import com.example.split.DTOs.AuthResponse;
 import com.example.split.DTOs.LoginRequest;
-import com.example.split.DTOs.ExpenseRequest;
 import com.example.split.Entities.User;
 import com.splitwise.exception.ResourceNotFoundException;
-import com.splitwise.repository.UserRepository;
+import com.example.split.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
