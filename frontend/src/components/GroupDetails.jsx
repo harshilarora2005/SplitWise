@@ -174,7 +174,7 @@ export default function GroupDetails() {
                         </div>
                     ) : expenses.length === 0 ? (
                         <div className="flex flex-col items-center gap-4 py-16 text-center">
-                            <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center">
+                            <div className="w-12 h-12 rounded-2xl bg-white/4 border border-white/[0.07] flex items-center justify-center">
                                 <span className="font-serif text-2xl text-white/20">÷</span>
                             </div>
                             <div>

@@ -66,7 +66,7 @@ export default function CreateGroupModal({ onClose, onCreated }) {
                                 <div key={u.id} onClick={() => toggleUser(u.id)}
                                     className={`flex items-center gap-3 px-3 py-2.5 rounded-lg border cursor-pointer transition-all ${
                                         selected.includes(u.id)
-                                            ? 'border-emerald-400/40 bg-emerald-400/[0.06]'
+                                            ? 'border-emerald-400/40 bg-emerald-400/6'
                                             : 'border-[#2a2d35] hover:border-[#363a45] hover:bg-[#1e2026]'
                                     }`}>
                                     <div className="w-8 h-8 rounded-full bg-[#1e2026] border border-[#363a45] flex items-center justify-center text-xs font-semibold text-emerald-400 shrink-0">

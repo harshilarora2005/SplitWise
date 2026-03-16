@@ -45,7 +45,7 @@ export default function Dashboard() {
     const fmt = (n) => n.toLocaleString('en-IN', { maximumFractionDigits: 0 })
 
     const StatCard = ({ value, label, sub, accent }) => (
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] px-5 py-4">
+        <div className="rounded-2xl border border-white/6 bg-white/3 px-5 py-4">
             <p className={`font-serif text-2xl font-normal mb-0.5 ${accent || 'text-white'}`}>{value}</p>
             <p className="text-[11px] uppercase tracking-widest text-white/30">{label}</p>
             {sub && <p className="text-xs text-white/20 mt-1">{sub}</p>}
@@ -72,7 +72,7 @@ export default function Dashboard() {
                 <p className="text-[13px] text-white/30 mt-1.5">Here's a summary across all your groups</p>
             </div>
 
-            <div className="border-t border-white/[0.05] mb-8" />
+            <div className="border-t border-white/5 mb-8" />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
                 <StatCard value={`₹${fmt(totalSpend)}`} label="Total spent" sub={`across ${groups.length} group${groups.length !== 1 ? 's' : ''}`} />
@@ -83,7 +83,7 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Category breakdown */}
-                <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
+                <div className="rounded-2xl border border-white/6 bg-white/3 p-6">
                     <p className="text-xs font-medium text-white/25 uppercase tracking-widest mb-5">Spend by category</p>
                     {categoryEntries.length === 0 ? (
                         <p className="text-sm text-white/20 py-8 text-center">No expenses yet</p>
@@ -99,7 +99,7 @@ export default function Dashboard() {
                                             <span className="text-xs font-medium text-white/60">{cat}</span>
                                             <span className="text-xs text-white/40">₹{fmt(amount)}</span>
                                         </div>
-                                        <div className="h-1 rounded-full bg-white/[0.05] overflow-hidden">
+                                        <div className="h-1 rounded-full bg-white/5 overflow-hidden">
                                             <div className="h-full rounded-full bg-emerald-400/50 transition-all duration-700"
                                                 style={{ width: `${(amount / maxCatAmount) * 100}%` }} />
                                         </div>
@@ -111,7 +111,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Recent expenses */}
-                <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
+                <div className="rounded-2xl border border-white/6 bg-white/3 p-6">
                     <div className="flex items-center justify-between mb-5">
                         <p className="text-xs font-medium text-white/25 uppercase tracking-widest">Recent expenses</p>
                         <Link to="/groups" className="text-xs text-emerald-400/60 hover:text-emerald-400 transition-colors">View all →</Link>
@@ -121,7 +121,7 @@ export default function Dashboard() {
                     ) : (
                         <div className="flex flex-col">
                             {recentExpenses.map(expense => (
-                                <div key={expense.id} className="flex items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0">
+                                <div key={expense.id} className="flex items-center gap-3 py-2.5 border-b border-white/4 last:border-0">
                                     <div className={`w-8 h-8 rounded-lg border flex items-center justify-center text-xs shrink-0 ${categoryColor[expense.category] || categoryColor.Other}`}>
                                         {categoryIcon[expense.category] || '•'}
                                     </div>
@@ -151,7 +151,7 @@ export default function Dashboard() {
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
                         {groups.slice(0, 4).map(group => (
                             <Link key={group.id} to={`/groups/${group.id}`}
-                                className="group flex items-center gap-3 p-3.5 bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.05] hover:border-white/[0.10] rounded-xl transition-all duration-150">
+                                className="group flex items-center gap-3 p-3.5 bg-white/2 hover:bg-white/5 border border-white/5 hover:border-white/10 rounded-xl transition-all duration-150">
                                 <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-serif text-base text-emerald-400 shrink-0">
                                     {group.name[0].toUpperCase()}
                                 </div>

@@ -35,7 +35,7 @@ export default function Groups() {
                 </button>
             </div>
 
-            <div className="border-t border-white/[0.05] mb-8" />
+            <div className="border-t border-white/5 mb-8" />
 
             {loading ? (
                 <div className="flex items-center justify-center py-24">
@@ -47,7 +47,7 @@ export default function Groups() {
                 </div>
             ) : groups.length === 0 ? (
                 <div className="flex flex-col items-center gap-5 py-24 text-center">
-                    <div className="w-14 h-14 rounded-2xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-2xl bg-white/4 border border-white/7 flex items-center justify-center">
                         <span className="font-serif text-3xl text-white/20">÷</span>
                     </div>
                     <div>
@@ -63,7 +63,7 @@ export default function Groups() {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                     {groups.map((group, i) => (
                         <Link key={group.id} to={`/groups/${group.id}`}
-                            className="group flex items-center gap-3.5 p-4 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] hover:border-white/[0.12] rounded-2xl transition-all duration-150"
+                            className="group flex items-center gap-3.5 p-4 bg-white/3 hover:bg-white/5 border border-white/6 hover:border-white/12 rounded-2xl transition-all duration-150"
                             style={{ animationDelay: `${i * 0.05}s` }}
                         >
                             <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-serif text-lg text-emerald-400 shrink-0">
