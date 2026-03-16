@@ -34,4 +34,9 @@ public class ExpenseController {
         expenseService.deleteExpense(expenseId);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<Expense>> getAllExpensesForUser(
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(expenseService.getAllExpensesForUser(userDetails.getUsername()));
+    }
 }

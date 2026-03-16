@@ -38,4 +38,12 @@ public class GroupController {
     public ResponseEntity<Group> addMember(@PathVariable Long groupId, @PathVariable Long userId) {
         return ResponseEntity.ok(groupService.addMember(groupId, userId));
     }
+
+    @DeleteMapping("/{groupId}/leave")
+    public ResponseEntity<Void> leaveGroup(@PathVariable Long groupId,
+                                           @AuthenticationPrincipal UserDetails userDetails) {
+        groupService.leaveGroup(groupId, userDetails.getUsername());
+        return ResponseEntity.noContent().build();
+    }
+
 }

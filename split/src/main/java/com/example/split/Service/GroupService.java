@@ -49,4 +49,12 @@ public class GroupService {
         group.getMembers().add(user);
         return groupRepository.save(group);
     }
+
+    public void leaveGroup(Long groupId, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Group group = getGroupById(groupId);
+        group.getMembers().remove(user);
+        groupRepository.save(group);
+    }
 }

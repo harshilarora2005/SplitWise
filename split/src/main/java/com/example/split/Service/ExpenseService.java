@@ -64,4 +64,13 @@ public class ExpenseService {
         expenseRepository.delete(expenseRepository.findById(expenseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Expense not found: " + expenseId)));
     }
+    public List<Expense> getAllExpensesForUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        List<Group> groups = groupService.getGroupsForUser(email);
+        return groups.stream()
+                .flatMap(g -> expenseRepository.findByGroupOrderByDateDesc(g).stream())
+                .sorted(Comparator.comparing(Expense::getDate).reversed())
+                .collect(java.util.stream.Collectors.toList());
+    }
 }
