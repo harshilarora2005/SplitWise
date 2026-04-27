@@ -6,51 +6,44 @@ import { useAuth } from '../context/AuthContext'
 export default function Login() {
     const [form, setForm] = useState({ email: '', password: '' })
     const [showPassword, setShowPassword] = useState(false)
-    const { login, loading, error, token } = useAuth()
-    const [localError, setLocalError] = useState('')
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
+    const { login, token } = useAuth()
     const navigate = useNavigate()
 
     useEffect(() => {
         if (token) navigate('/dashboard')
     }, [token])
 
-    const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+    const handleChange = e => {
+        setError('')
+        setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+    }
 
     async function handleSubmit(e) {
         e.preventDefault()
 
-        if (!form.email.trim()) {
-            setLocalError('Email is required.')
-            return
-        }
+        if (!form.email.trim()) { setError('Email is required.'); return }
+        if (!form.password.trim()) { setError('Password is required.'); return }
+        if (form.password.length < 6) { setError('Password must be at least 6 characters.'); return }
 
-        if (!form.password.trim()) {
-            setLocalError('Password is required.')
-            return
-        }
-
-        if (form.password.length < 6) {
-            setLocalError('Password must be at least 6 characters.')
-            return
-        }
-
-        setLocalError('')
-
+        setLoading(true)
         const result = await login(form)
+        setLoading(false)
 
         if (!result.error) {
             navigate('/dashboard')
         } else {
-            setForm(f => ({ ...f, password: '' }))
+            const msg = result.error.toLowerCase()
+            if (msg.includes('bad credentials') || msg.includes('unauthorized') || msg.includes('invalid')) {
+                setError('Incorrect email or password. Please try again.')
+            } else if (msg.includes('not found')) {
+                setError('No account found with this email.')
+            } else {
+                setError(result.error)
+            }
         }
     }
-    const friendlyError = error
-        ? error.toLowerCase().includes('bad credentials') || error.toLowerCase().includes('unauthorized') || error.toLowerCase().includes('invalid')
-            ? 'Incorrect email or password. Please try again.'
-            : error.toLowerCase().includes('not found')
-                ? 'No account found with this email.'
-                : error
-        : null
 
     const inputClass = "w-full bg-[#1e2026] border border-[#2a2d35] text-white rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-400 transition-colors placeholder:text-[#5c6070]"
 
@@ -81,14 +74,12 @@ export default function Login() {
                             <button type="button" onClick={() => setShowPassword(v => !v)}
                                 className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5c6070] hover:text-[#9a9da8] transition-colors p-0.5">
                                 {showPassword ? (
-                                    // Eye-off icon
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
                                         <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
                                         <line x1="1" y1="1" x2="23" y2="23"/>
                                     </svg>
                                 ) : (
-                                    // Eye icon
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                                         <circle cx="12" cy="12" r="3"/>
@@ -98,10 +89,10 @@ export default function Login() {
                         </div>
                     </div>
 
-                    {(localError || friendlyError) && (
+                    {error && (
                         <div className="flex items-start gap-2.5 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-lg px-3.5 py-2.5">
                             <span className="mt-0.5 shrink-0">✕</span>
-                            <span>{localError || friendlyError}</span>
+                            <span>{error}</span>
                         </div>
                     )}
 
