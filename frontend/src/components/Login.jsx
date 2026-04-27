@@ -7,6 +7,7 @@ export default function Login() {
     const [form, setForm] = useState({ email: '', password: '' })
     const [showPassword, setShowPassword] = useState(false)
     const { login, loading, error, token } = useAuth()
+    const [localError, setLocalError] = useState('')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -17,11 +18,32 @@ export default function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        const result = await login(form)
-        if (!result.error) navigate('/dashboard')
-    }
 
-    // Map backend errors to friendly messages
+        if (!form.email.trim()) {
+            setLocalError('Email is required.')
+            return
+        }
+
+        if (!form.password.trim()) {
+            setLocalError('Password is required.')
+            return
+        }
+
+        if (form.password.length < 6) {
+            setLocalError('Password must be at least 6 characters.')
+            return
+        }
+
+        setLocalError('')
+
+        const result = await login(form)
+
+        if (!result.error) {
+            navigate('/dashboard')
+        } else {
+            setForm(f => ({ ...f, password: '' }))
+        }
+    }
     const friendlyError = error
         ? error.toLowerCase().includes('bad credentials') || error.toLowerCase().includes('unauthorized') || error.toLowerCase().includes('invalid')
             ? 'Incorrect email or password. Please try again.'
@@ -76,10 +98,10 @@ export default function Login() {
                         </div>
                     </div>
 
-                    {friendlyError && (
+                    {(localError || friendlyError) && (
                         <div className="flex items-start gap-2.5 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-lg px-3.5 py-2.5">
                             <span className="mt-0.5 shrink-0">✕</span>
-                            <span>{friendlyError}</span>
+                            <span>{localError || friendlyError}</span>
                         </div>
                     )}
 

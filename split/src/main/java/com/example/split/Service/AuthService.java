@@ -12,7 +12,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -36,11 +38,27 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
+        System.out.println("Login attempt for email: " + request.getEmail());
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+            System.out.println("Authentication successful for: " + request.getEmail());
+        } catch (BadCredentialsException e) {
+            System.out.println("Bad credentials for: " + request.getEmail());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
+        }
+
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return new AuthResponse(jwtUtil.generateToken(user.getEmail()), user.getName(), user.getEmail());
+        System.out.println("User found: " + user.getName());
+        return new AuthResponse(
+                jwtUtil.generateToken(user.getEmail()),
+                user.getName(),
+                user.getEmail()
+        );
     }
 }

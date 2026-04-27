@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
             token,
             loading,
             error,
-            login: (creds) => dispatch(loginThunk(creds)),
+            login: (creds) => dispatch(loginThunk(creds)).unwrap(),
             register: (data) => dispatch(registerThunk(data)),
             logout: () => dispatch(logout()),
         }}

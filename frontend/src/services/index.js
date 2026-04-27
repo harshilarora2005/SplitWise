@@ -2,7 +2,21 @@ import api from './api'
 
 export const authService = {
     register: (data) => api.post('/auth/register', data).then((r) => r.data),
-    login: (data) => api.post('/auth/login', data).then((r) => r.data),
+    login: (data) => {
+    console.log('Login request payload:', data)
+
+    return api.post('/auth/login', data)
+        .then((r) => {
+            console.log('Login response:', r.data)
+            console.log('Token received:', r.data.token)
+            return r.data
+        })
+        .catch((err) => {
+            console.log('Login error status:', err.response?.status)
+            console.log('Login error data:', err.response?.data)
+            throw err
+        })
+}
 }
 
 export const userService = {
