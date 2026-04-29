@@ -10,7 +10,6 @@ export default function AddExpenseModal({ group, onClose, onAdded }) {
     })
     const [paidById, setPaidById] = useState(members[0]?.id ?? null)
     const [splitMode, setSplitMode] = useState('equal')
-    // who is involved — all by default
     const [involved, setInvolved] = useState(() => new Set(members.map(m => m.id)))
     const [customSplits, setCustomSplits] = useState(
         () => members.reduce((acc, m) => ({ ...acc, [m.id]: '' }), {})
@@ -29,9 +28,8 @@ export default function AddExpenseModal({ group, onClose, onAdded }) {
         setInvolved(prev => {
             const next = new Set(prev)
             if (next.has(memberId)) {
-                if (next.size === 1) return prev // keep at least 1
+                if (next.size === 1) return prev 
                 next.delete(memberId)
-                // if paidBy is deselected, reassign to first still-involved member
                 if (memberId === paidById) {
                     const remaining = members.filter(m => next.has(m.id))
                     setPaidById(remaining[0]?.id ?? null)
@@ -84,7 +82,6 @@ export default function AddExpenseModal({ group, onClose, onAdded }) {
                     .filter(m => parseFloat(customSplits[m.id]) > 0)
                     .map(m => ({ userId: m.id, shareAmount: parseFloat(customSplits[m.id]) }))
             } else {
-                // equal split among involved only
                 const share = parseFloat((totalAmount / involvedMembers.length).toFixed(2))
                 payload.splits = involvedMembers.map(m => ({ userId: m.id, shareAmount: share }))
             }

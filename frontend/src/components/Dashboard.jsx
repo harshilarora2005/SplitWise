@@ -13,6 +13,13 @@ const categoryColor = {
     Activities: 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400',
     Other: 'bg-white/5 border-white/10 text-white/40',
 }
+const StatCard = ({ value, label, sub, accent }) => (
+        <div className="rounded-2xl border border-white/6 bg-white/3 px-5 py-4">
+            <p className={`font-serif text-2xl font-normal mb-0.5 ${accent || 'text-white'}`}>{value}</p>
+            <p className="text-[11px] uppercase tracking-widest text-white/30">{label}</p>
+            {sub && <p className="text-xs text-white/20 mt-1">{sub}</p>}
+        </div>
+    )
 
 export default function Dashboard() {
     const dispatch = useDispatch()
@@ -44,13 +51,7 @@ export default function Dashboard() {
 
     const fmt = (n) => n.toLocaleString('en-IN', { maximumFractionDigits: 0 })
 
-    const StatCard = ({ value, label, sub, accent }) => (
-        <div className="rounded-2xl border border-white/6 bg-white/3 px-5 py-4">
-            <p className={`font-serif text-2xl font-normal mb-0.5 ${accent || 'text-white'}`}>{value}</p>
-            <p className="text-[11px] uppercase tracking-widest text-white/30">{label}</p>
-            {sub && <p className="text-xs text-white/20 mt-1">{sub}</p>}
-        </div>
-    )
+    
 
     if (allLoading) return (
         <div className="flex items-center justify-center py-32">
